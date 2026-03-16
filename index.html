@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0a0e27">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Cyber Authority">
+    <title>Cyber Authority Timeline</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+            color: #fff;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #app {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            width: 100%;
+        }
+
+        .header {
+            padding: 16px;
+            background: rgba(15, 23, 42, 0.9);
+            border-bottom: 1px solid rgba(34, 211, 238, 0.2);
+            flex-shrink: 0;
+            overflow-y: auto;
+            max-height: 200px;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .start-date-section {
+            background: rgba(34, 211, 238, 0.1);
+            border: 1px solid rgba(34, 211, 238, 0.2);
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+
+        .start-date-section label {
+            display: block;
+            font-size: 11px;
+            color: #94a3b8;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        .start-date-input {
+            width: 100%;
+            padding: 10px;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(34, 211, 238, 0.3);
+            border-radius: 6px;
+            color: #22d3ee;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .start-date-input:focus {
+            outline: none;
+            border-color: #22d3ee;
+            box-shadow: 0 0 8px rgba(34, 211, 238, 0.2);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(34, 211, 238, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 12px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #06b6d4 0%, #0284c7 100%);
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 8px;
+        }
+
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 16px;
+            padding-bottom: 20px;
+        }
+
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .task {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid rgba(34, 211, 238, 0.2);
+            border-radius: 12px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .task:active {
+            transform: scale(0.98);
+        }
+
+        .task.completed {
+            background: rgba(34, 197, 94, 0.1);
+            border-color: rgba(34, 197, 94, 0.3);
+        }
+
+        .task.completed .task-title {
+            color: #86efac;
+            text-decoration: line-through;
+        }
+
+        .task-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .task-checkbox {
+            width: 24px;
+            height: 24px;
+            border: 2px solid rgba(34, 211, 238, 0.4);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .task.completed .task-checkbox {
+            background: #22d3ee;
+            border-color: #22d3ee;
+        }
+
+        .task-meta {
+            flex: 1;
+        }
+
+        .task-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #f1f5f9;
+            margin-bottom: 4px;
+        }
+
+        .task-date {
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        .task-status {
+            font-size: 11px;
+            padding: 4px 8px;
+            background: rgba(34, 211, 238, 0.1);
+            color: #22d3ee;
+            border-radius: 4px;
+            white-space: nowrap;
+        }
+
+        .task.completed .task-status {
+            background: rgba(34, 197, 94, 0.1);
+            color: #86efac;
+        }
+
+        .task-content {
+            display: none;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(34, 211, 238, 0.1);
+        }
+
+        .task.expanded .task-content {
+            display: block;
+        }
+
+        .task-description {
+            font-size: 13px;
+            color: #cbd5e1;
+            line-height: 1.5;
+            margin-bottom: 12px;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .task-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .task-btn {
+            flex: 1;
+            min-width: 80px;
+            padding: 10px;
+            border: none;
+            background: rgba(34, 211, 238, 0.1);
+            color: #22d3ee;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .task-btn:active {
+            background: rgba(34, 211, 238, 0.2);
+        }
+
+        .today-marker {
+            text-align: center;
+            padding: 20px 0 12px;
+            position: relative;
+        }
+
+        .today-marker::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 8px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #22d3ee, transparent);
+        }
+
+        .today-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            background: linear-gradient(135deg, #06b6d4 0%, #0284c7 100%);
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            color: white;
+            position: relative;
+            z-index: 1;
+        }
+
+        .week-section {
+            margin-bottom: 24px;
+        }
+
+        .week-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: #22d3ee;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 12px 0 8px;
+            border-bottom: 1px solid rgba(34, 211, 238, 0.2);
+            margin-bottom: 12px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #0f1729 0%, #1a1f3a 100%);
+            border: 1px solid rgba(34, 211, 238, 0.3);
+            border-radius: 16px;
+            padding: 24px;
+            max-width: 90vw;
+            max-height: 85vh;
+            overflow-y: auto;
+            width: 100%;
+            margin: auto;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #22d3ee;
+        }
+
+        .modal-body {
+            font-size: 13px;
+            color: #cbd5e1;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            white-space: pre-wrap;
+            word-break: break-word;
+            background: rgba(15, 23, 42, 0.5);
+            padding: 16px;
+            border-radius: 8px;
+            border: 1px solid rgba(34, 211, 238, 0.1);
+        }
+
+        textarea {
+            width: 100%;
+            padding: 12px;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(34, 211, 238, 0.2);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 13px;
+            font-family: monospace;
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        textarea:focus {
+            border-color: #22d3ee;
+            outline: none;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 20px;
+        }
+
+        .modal-actions button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #06b6d4 0%, #0284c7 100%);
+            color: white;
+        }
+
+        .btn-primary:active {
+            transform: scale(0.98);
+        }
+
+        .btn-secondary {
+            background: rgba(71, 85, 105, 0.5);
+            color: #cbd5e1;
+        }
+
+        .btn-secondary:active {
+            transform: scale(0.98);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="header">
+            <h1>🛡️ Cyber Authority</h1>
+            <p style="font-size: 12px; color: #94a3b8; margin-bottom: 12px;">12-Week Timeline</p>
+            
+            <div class="start-date-section">
+                <label>📅 Program Start Date</label>
+                <input type="date" id="startDate" class="start-date-input">
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+            </div>
+            <div class="progress-text">
+                <span id="progressText">0 of 0 tasks completed</span>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="timeline" id="timeline"></div>
+        </div>
+    </div>
+
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <div class="modal-title" id="modalTitle"></div>
+            <div class="modal-body" id="modalBody"></div>
+            
+            <div id="contentSection" class="hidden">
+                <label style="display: block; font-size: 12px; color: #cbd5e1; margin-bottom: 6px; font-weight: 600;">📋 Ready to copy:</label>
+                <textarea id="contentTextarea" readonly></textarea>
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn-secondary" onclick="closeModal()">Close</button>
+                <button class="btn-primary" onclick="copyContent()">📋 Copy</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const baseTimeline = [
+            {week: 1, day: 'Monday', daysFromStart: 0, title: '📋 Update LinkedIn Profile', description: 'Update your headline and about section.', type: 'setup', content: 'LINKEDIN HEADLINE:\nCFO Services @ Brooks Keret | Cyber Sector Finance & Startup Screening\n\nABOUT SECTION:\nI screen 20+ cyber startups per month across seed and Series A. Focusing on the intersection of CFO fundamentals and cyber domain knowledge.\n\nIf you\'re a founder or investor in cyber, let\'s connect.'},
+            {week: 1, day: 'Monday', daysFromStart: 0, title: '📓 Create Content Calendar', description: 'Set up your posting schedule.', type: 'admin', content: 'POSTING SCHEDULE:\n- Time: Tuesday 10 AM (Israeli time)\n- Frequency: 1 post per week\n- Duration: 12 weeks\n\nEach post is pre-filled in this app.'},
+            {week: 1, day: 'Tuesday', daysFromStart: 1, title: '📱 Post #1: Introduction', description: 'Your positioning post.', type: 'post', content: 'Excited to share what we\'re seeing in the cyber startup ecosystem.\n\nOver the past 8 months screening startups at Brooks Keret, I\'ve noticed patterns that most founders—and investors—are missing.\n\nWe evaluate ~25 cyber companies per month across seed and Series A.\n\nThis is a space where CFO fundamentals + cyber domain knowledge intersect.\n\nI\'ll be sharing insights from our screening room to help founders and investors understand what makes a cyber startup truly fundable.\n\n(Hint: it\'s not the technology. It\'s the unit economics.)\n\nLet\'s go. 🛡️\n\n#Cybersecurity #Startups #Finance #Funding'},
+            {week: 1, day: 'Friday', daysFromStart: 4, title: '📊 Check Post #1 Metrics', description: 'Log impressions, likes, comments, shares.', type: 'tracking', content: null},
+            {week: 2, day: 'Monday', daysFromStart: 7, title: '📊 Prepare Insight #1 Data', description: 'Think about your top pattern.', type: 'research', content: 'PREPARATION:\n\n1. What is the main pattern you observed?\n2. How many startups affected?\n3. What\'s the concrete impact?\n4. What can founders do?'},
+            {week: 2, day: 'Tuesday', daysFromStart: 8, title: '📱 Post #2: First Pattern', description: 'Share your first insight.', type: 'post', content: '🔍 Screening Room Insight #1\n\nLast month, we evaluated 25 cyber startups.\nHere\'s what jumped out:\n\n[FILL: Your Pattern Name]\n\nWhat we saw:\n- [FILL: Observation 1]\n- [FILL: Observation 2]\n\nWhy this matters:\nThis impacts how founders approach fundraising.\n\nWhat founders can do:\n[FILL: 1 actionable tip]\n\n#CyberStartups #Founders #Funding'},
+            {week: 3, day: 'Tuesday', daysFromStart: 15, title: '📱 Post #3: Second Pattern', description: 'Share your second insight.', type: 'post', content: '🔍 Screening Room Insight #2\n\n[FILL: Your Pattern Name]\n\nWhat we saw:\n- [FILL: Observation 1]\n- [FILL: Observation 2]\n\nWhy this matters:\n[FILL: Impact]\n\nWhat founders can do:\n[FILL: Tip]\n\n#CyberStartups #Founders'},
+            {week: 4, day: 'Tuesday', daysFromStart: 22, title: '📱 Post #4: Case Study', description: 'Share anonymized founder case study.', type: 'post', content: '📊 What We Learned From Screening [Anonymous Startup]\n\nWhat stood out:\n1. [FILL: Observation 1]\n2. [FILL: Observation 2]\n3. [FILL: Observation 3]\n\nThe biggest win: [FILL]\nThe biggest miss: [FILL]\n\n#Screening #Founders'},
+            {week: 5, day: 'Tuesday', daysFromStart: 29, title: '📱 Post #5: Monthly Benchmarks', description: 'Share benchmarking data.', type: 'post', content: '📈 Cyber Startup Benchmarks\n\nBased on screening 25+ startups:\n\n**Funding**\n- Median seed: $[FILL]\n- Median Series A: $[FILL]\n\n**Metrics**\n- Median CAC: $[FILL]\n- Median growth: [FILL]%\n- Median runway: [FILL] months\n\n**Red Flags**\n- [FILL]% have [problem]\n\n#Benchmarks #CyberSecurity'},
+            {week: 6, day: 'Tuesday', daysFromStart: 36, title: '📱 Post #6: Investor Metrics', description: 'What investors ask about.', type: 'post', content: '🎯 The 3 Metrics Cyber Investors Ask For\n\n1. **CAC Payback < 12 months**\n   Shows repeatable go-to-market\n\n2. **Gross Margin > 65%**\n   Shows unit economics work\n\n3. **YoY Growth > 100%**\n   Shows product-market fit\n\nIf you have these three, Series A gets easier.\n\n#Fundraising #Investors #CyberStartups'},
+            {week: 7, day: 'Tuesday', daysFromStart: 43, title: '📱 Post #7: Common Mistakes', description: '3 biggest mistakes.', type: 'post', content: '🔴 The 3 Mistakes Every Cyber Startup Makes\n\n**Mistake #1: Focus on Features, Not Dollars**\nInvestors see: "Can you generate revenue?"\n\n**Mistake #2: Wrong GTM for Market**\nSelf-serve on enterprise products doesn\'t scale.\n\n**Mistake #3: Underestimating Sales Cycles**\nYou\'re forgetting 6+ month sales cycles.\n\nNot making these? You\'re ahead of 70%.\n\n#FundingAdvice #CyberStartups'},
+            {week: 8, day: 'Tuesday', daysFromStart: 50, title: '📱 Post #8: Founder Traits', description: 'Traits that predict success.', type: 'post', content: '👥 Founder Traits We Look For\n\n1. **Financial Literacy**\n   Do they understand their metrics?\n\n2. **Coachability**\n   Do they learn or argue?\n\n3. **Realistic Optimism**\n   They know it\'s hard AND they\'ll win.\n\n4. **Sales DNA**\n   Can they sell the vision?\n\nHaving all 4? Series A coming.\n\n#Founders #Leadership #CyberSecurity'},
+            {week: 9, day: 'Tuesday', daysFromStart: 57, title: '📱 Post #9: 2024 Trends', description: 'Cyber funding trends.', type: 'post', content: '📊 2024 Cyber Funding Trends\n\n**Seeing MORE:**\n- B2B2C models\n- API-first security\n- AI-assisted detection\n- Compliance-first positioning\n\n**Seeing LESS:**\n- Pure cybersecurity tech\n- Enterprise-only TAM\n- "Like CrowdStrike but cheaper"\n\nDifferentiation matters.\n\n#CyberSecurity #Fundraising'},
+            {week: 10, day: 'Tuesday', daysFromStart: 64, title: '📱 Post #10: Unit Economics', description: 'CAC and payback deep dive.', type: 'post', content: '💰 Unit Economics in Cyber\n\nMargins: 70%+ ✅\nPayback: 18-24 months 😬\n\nThis creates problems:\n- Need to raise MORE\n- SaaS math doesn\'t apply\n- Investors don\'t account\n\nWhat to do:\n1. Know payback (month by month)\n2. Model cash to break-even\n3. Raise for 18+ months\n\n60% underestimate by 3-6 months.\n\n#UnitEconomics #Finance'},
+            {week: 11, day: 'Tuesday', daysFromStart: 71, title: '📱 Post #11: Future Bets', description: 'What you\'re betting on.', type: 'post', content: '🔮 What We\'re Betting On in Cyber\n\nWINNERS will have:\n\n1. **Boring GTM**\n   Repeatable, profitable\n\n2. **CAC Mastery**\n   Understand to the dollar\n\n3. **Compliance First**\n   Then features\n\n4. **Sales + Engineering**\n   No pure-tech teams\n\nIf founding/investing: these are the bets.\n\n#CyberTrends #Startups'},
+            {week: 12, day: 'Tuesday', daysFromStart: 78, title: '📱 Post #12: Retrospective', description: 'Wrap up 12-week journey.', type: 'post', content: '🎯 11 Weeks of Cyber Insights\n\n**Founders:**\n✅ Know unit economics\n✅ Price for value\n✅ Understand investor priorities\n✅ Build selling teams\n\n**Investors:**\n✅ Ask payback period\n✅ Dig into GTM unit econ\n✅ Value operators\n\n**Next: Monthly office hours for founders + investors.\n\nLet\'s keep building.\n\n#CyberSecurity #Startups #Funding'},
+            {week: 12, day: 'Friday', daysFromStart: 82, title: '🎉 Celebrate & Plan Next Phase', description: '12 weeks complete! Plan Month 4-12.', type: 'milestone', content: 'NEXT PHASE:\n\n✅ Month 1-3 complete\n\nMonth 4-12:\n1. Continue posting\n2. Launch monthly office hours\n3. Guest posts on publications\n4. Speaking events (2/quarter)\n5. Multiply impact\n\nYou\'ve built authority. Leverage it.'}
+        ];
+
+        let tasks = [];
+        let completedTasks = [];
+        let startDate = null;
+
+        function loadData() {
+            const saved = localStorage.getItem('cyberAuthorityTimeline');
+            if (saved) {
+                const data = JSON.parse(saved);
+                completedTasks = data.completedTasks || [];
+                startDate = data.startDate;
+                document.getElementById('startDate').value = startDate || new Date().toISOString().split('T')[0];
+                updateTimeline();
+            } else {
+                const today = new Date().toISOString().split('T')[0];
+                startDate = today;
+                document.getElementById('startDate').value = today;
+                updateTimeline();
+            }
+        }
+
+        function saveData() {
+            localStorage.setItem('cyberAuthorityTimeline', JSON.stringify({completedTasks, startDate}));
+        }
+
+        function updateTimeline() {
+            const input = document.getElementById('startDate').value;
+            if (!input) return;
+
+            startDate = input;
+            const start = new Date(startDate + 'T00:00:00');
+
+            tasks = baseTimeline.map(task => ({
+                ...task,
+                actualDate: new Date(start.getTime() + task.daysFromStart * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+            }));
+
+            render();
+            saveData();
+        }
+
+        function render() {
+            const timeline = document.getElementById('timeline');
+            timeline.innerHTML = '';
+
+            let todayMarkerAdded = false;
+            const today = new Date().toISOString().split('T')[0];
+            let currentWeek = 0;
+            let weekTasks = [];
+
+            tasks.forEach(task => {
+                if (task.week !== currentWeek) {
+                    if (weekTasks.length > 0) {
+                        addWeekSection(timeline, currentWeek, weekTasks);
+                        weekTasks = [];
+                    }
+                    currentWeek = task.week;
+                }
+
+                if (!todayMarkerAdded && task.actualDate >= today) {
+                    const marker = document.createElement('div');
+                    marker.className = 'today-marker';
+                    marker.innerHTML = '<span class="today-badge">📍 Today & Forward</span>';
+                    timeline.appendChild(marker);
+                    todayMarkerAdded = true;
+                }
+
+                weekTasks.push(task);
+            });
+
+            if (weekTasks.length > 0) {
+                addWeekSection(timeline, currentWeek, weekTasks);
+            }
+
+            updateProgress();
+        }
+
+        function addWeekSection(parent, week, weekTasks) {
+            const section = document.createElement('div');
+            section.className = 'week-section';
+            section.innerHTML = `<div class="week-title">Week ${week}</div>`;
+
+            weekTasks.forEach(task => {
+                const taskEl = createTaskElement(task);
+                section.appendChild(taskEl);
+            });
+
+            parent.appendChild(section);
+        }
+
+        function createTaskElement(task) {
+            const taskId = task.actualDate + '_' + task.title;
+            const isCompleted = completedTasks.includes(taskId);
+            const taskEl = document.createElement('div');
+            taskEl.className = 'task' + (isCompleted ? ' completed' : '');
+
+            const taskDate = new Date(task.actualDate + 'T00:00:00');
+            const dateStr = taskDate.toLocaleDateString('en-US', {month: 'short', day: 'numeric'});
+
+            let actionsHTML = `<button class="task-btn" onclick="toggleTask('${taskId.replace(/'/g, "\\'")}')">${isCompleted ? 'Undo ↩️' : 'Mark Done ✓'}</button>`;
+
+            if (task.content) {
+                actionsHTML = `<button class="task-btn" onclick="showModal('${task.title.replace(/'/g, "\\'")}', '${task.description.replace(/'/g, "\\'")}', \`${task.content.replace(/`/g, '\\`')}\`)">📖 View</button>` + actionsHTML;
+            }
+
+            taskEl.innerHTML = `
+                <div class="task-header">
+                    <div class="task-checkbox" onclick="toggleTask('${taskId.replace(/'/g, "\\'")}')">${isCompleted ? '✓' : ''}</div>
+                    <div class="task-meta">
+                        <div class="task-title">${task.title}</div>
+                        <div class="task-date">${task.day} • ${dateStr}</div>
+                    </div>
+                    <div class="task-status">${task.type}</div>
+                </div>
+                <div class="task-content">
+                    <div class="task-description">${task.description}</div>
+                    <div class="task-actions">${actionsHTML}</div>
+                </div>
+            `;
+
+            taskEl.addEventListener('click', (e) => {
+                if (!e.target.closest('.task-btn') && !e.target.closest('.task-checkbox')) {
+                    taskEl.classList.toggle('expanded');
+                }
+            });
+
+            return taskEl;
+        }
+
+        function toggleTask(taskId) {
+            if (completedTasks.includes(taskId)) {
+                completedTasks = completedTasks.filter(id => id !== taskId);
+            } else {
+                completedTasks.push(taskId);
+            }
+            saveData();
+            render();
+        }
+
+        function showModal(title, description, content) {
+            const modal = document.getElementById('modal');
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalBody').textContent = description;
+
+            const contentSection = document.getElementById('contentSection');
+            if (content && content.length > 0) {
+                contentSection.classList.remove('hidden');
+                document.getElementById('contentTextarea').value = content;
+            } else {
+                contentSection.classList.add('hidden');
+            }
+
+            modal.classList.add('show');
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.remove('show');
+        }
+
+        function copyContent() {
+            const textarea = document.getElementById('contentTextarea');
+            textarea.select();
+            document.execCommand('copy');
+            alert('✅ Copied to clipboard!');
+        }
+
+        function updateProgress() {
+            const total = tasks.length;
+            const completed = completedTasks.length;
+            const percentage = total > 0 ? (completed / total) * 100 : 0;
+
+            document.getElementById('progressFill').style.width = percentage + '%';
+            document.getElementById('progressText').textContent = `${completed} of ${total} tasks completed`;
+        }
+
+        document.getElementById('startDate').addEventListener('change', updateTimeline);
+        document.getElementById('modal').addEventListener('click', (e) => {
+            if (e.target.id === 'modal') closeModal();
+        });
+
+        loadData();
+    </script>
+</body>
+</html>
