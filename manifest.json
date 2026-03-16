@@ -1,0 +1,30 @@
+{
+  "name": "Cyber Authority Timeline",
+  "short_name": "Cyber Authority",
+  "description": "12-Week Cyber Finance Authority Building Program",
+  "start_url": "/cyber-authority/",
+  "display": "standalone",
+  "background_color": "#0a0e27",
+  "theme_color": "#06b6d4",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "LOGO.PNG",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "LOGO.PNG",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "LOGO.PNG",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
