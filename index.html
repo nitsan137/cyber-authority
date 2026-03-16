@@ -128,7 +128,6 @@
             padding: 16px;
             cursor: pointer;
             transition: all 0.2s;
-            position: relative;
         }
 
         .task:active {
@@ -311,7 +310,7 @@
             border: 1px solid rgba(34, 211, 238, 0.1);
         }
 
-        textarea {
+        textarea, input[type="text"], input[type="number"], input[type="email"], input[type="url"] {
             width: 100%;
             padding: 12px;
             background: rgba(15, 23, 42, 0.8);
@@ -319,14 +318,26 @@
             border-radius: 8px;
             color: #fff;
             font-size: 13px;
-            font-family: monospace;
+            font-family: inherit;
             resize: vertical;
+            margin-bottom: 12px;
+        }
+
+        textarea:focus, input:focus {
+            border-color: #22d3ee;
+            outline: none;
+        }
+
+        textarea {
             min-height: 150px;
         }
 
-        textarea:focus {
-            border-color: #22d3ee;
-            outline: none;
+        .form-label {
+            display: block;
+            font-size: 12px;
+            color: #cbd5e1;
+            margin-bottom: 6px;
+            font-weight: 600;
         }
 
         .modal-actions {
@@ -360,60 +371,37 @@
             color: #cbd5e1;
         }
 
-        .metrics-form {
-            background: rgba(34, 211, 238, 0.1);
-            border: 1px solid rgba(34, 211, 238, 0.2);
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 12px;
-        }
-
-        .metrics-form label {
-            display: block;
-            font-size: 11px;
-            color: #cbd5e1;
-            margin-bottom: 6px;
-            font-weight: 600;
-        }
-
-        .metrics-form input {
-            width: 100%;
-            padding: 8px;
-            background: rgba(15, 23, 42, 0.8);
-            border: 1px solid rgba(34, 211, 238, 0.2);
-            border-radius: 6px;
-            color: #fff;
-            font-size: 12px;
-            margin-bottom: 8px;
-        }
-
-        .metrics-form input:focus {
-            border-color: #22d3ee;
-            outline: none;
+        .btn-secondary:active {
+            transform: scale(0.98);
         }
 
         .metrics-feedback {
             font-size: 12px;
-            padding: 8px;
-            border-radius: 6px;
-            margin-top: 8px;
-        }
-
-        .metrics-feedback.good {
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 12px;
+            border: 1px solid rgba(34, 197, 94, 0.3);
             background: rgba(34, 197, 94, 0.1);
             color: #86efac;
-            border: 1px solid rgba(34, 197, 94, 0.2);
         }
 
         .metrics-feedback.warning {
+            border-color: rgba(251, 191, 36, 0.3);
             background: rgba(251, 191, 36, 0.1);
             color: #fcd34d;
-            border: 1px solid rgba(251, 191, 36, 0.2);
         }
 
         .hidden {
             display: none !important;
         }
+
+        .type-post { color: #22d3ee; }
+        .type-marketing { color: #fbbf24; }
+        .type-speaking { color: #ec4899; }
+        .type-meeting { color: #8b5cf6; }
+        .type-event { color: #f97316; }
+        .type-branding { color: #06b6d4; }
+        .type-analytics { color: #10b981; }
     </style>
 </head>
 <body>
@@ -445,28 +433,62 @@
             <div class="modal-body" id="modalBody"></div>
             
             <div id="contentSection" class="hidden">
-                <label style="display: block; font-size: 12px; color: #cbd5e1; margin-bottom: 6px; font-weight: 600;">📋 Content:</label>
+                <label class="form-label">📋 Content:</label>
                 <textarea id="contentTextarea" readonly></textarea>
             </div>
 
             <div id="metricsSection" class="hidden">
-                <div class="metrics-form">
-                    <label>👁️ Impressions:</label>
-                    <input type="number" id="metricsImpressions" placeholder="0">
-                    
-                    <label>❤️ Likes:</label>
-                    <input type="number" id="metricsLikes" placeholder="0">
-                    
-                    <label>💬 Comments:</label>
-                    <input type="number" id="metricsComments" placeholder="0">
-                    
-                    <label>🔄 Shares:</label>
-                    <input type="number" id="metricsShares" placeholder="0">
-                    
-                    <button class="task-btn" onclick="calculateMetrics()" style="width: 100%; margin-top: 12px;">Calculate Feedback</button>
-                    
-                    <div id="metricsFeedback" class="metrics-feedback hidden" style="margin-top: 12px;"></div>
-                </div>
+                <label class="form-label">👁️ Impressions:</label>
+                <input type="number" id="metricsImpressions" placeholder="0">
+                
+                <label class="form-label">❤️ Likes:</label>
+                <input type="number" id="metricsLikes" placeholder="0">
+                
+                <label class="form-label">💬 Comments:</label>
+                <input type="number" id="metricsComments" placeholder="0">
+                
+                <label class="form-label">🔄 Shares:</label>
+                <input type="number" id="metricsShares" placeholder="0">
+                
+                <button class="task-btn" onclick="calculateMetrics()" style="width: 100%; margin-bottom: 12px;">📊 Calculate</button>
+                
+                <div id="metricsFeedback" class="metrics-feedback hidden"></div>
+            </div>
+
+            <div id="speakingSection" class="hidden">
+                <label class="form-label">🎤 Event Name:</label>
+                <input type="text" id="speakingEvent" placeholder="Conference/Workshop name">
+                
+                <label class="form-label">📌 Topic:</label>
+                <input type="text" id="speakingTopic" placeholder="Your talk topic">
+                
+                <label class="form-label">🔗 Link:</label>
+                <input type="url" id="speakingLink" placeholder="https://...">
+                
+                <label class="form-label">✅ Notes:</label>
+                <textarea id="speakingNotes" placeholder="Key points, Q&A, feedback..."></textarea>
+                
+                <button class="task-btn" onclick="saveSpeakingData()" style="width: 100%; margin-bottom: 12px;">💾 Save</button>
+            </div>
+
+            <div id="meetingSection" class="hidden">
+                <label class="form-label">👤 CISO/Contact Name:</label>
+                <input type="text" id="meetingName" placeholder="Name">
+                
+                <label class="form-label">🏢 Company:</label>
+                <input type="text" id="meetingCompany" placeholder="Company name">
+                
+                <label class="form-label">📝 Topics Discussed:</label>
+                <textarea id="meetingTopics" placeholder="Topics, outcomes, next steps..."></textarea>
+                
+                <button class="task-btn" onclick="saveMeetingData()" style="width: 100%; margin-bottom: 12px;">💾 Save</button>
+            </div>
+
+            <div id="brandingSection" class="hidden">
+                <label class="form-label">🎨 Branding Task:</label>
+                <textarea id="brandingDetails" placeholder="Design elements, messaging, visual identity..."></textarea>
+                
+                <button class="task-btn" onclick="saveBrandingData()" style="width: 100%; margin-bottom: 12px;">💾 Save</button>
             </div>
 
             <div class="modal-actions">
@@ -479,54 +501,87 @@
     <script>
         const baseTimeline = [
             // WEEK 1
-            {week: 1, day: 'Monday', daysFromStart: 0, title: '📋 Update LinkedIn Profile', description: 'Update your headline and about section.', type: 'setup', team: 'you', content: 'LINKEDIN HEADLINE:\nCFO Services @ Brooks Keret | Cyber Sector Finance & Startup Screening\n\nABOUT SECTION:\nI screen 20+ cyber startups per month across seed and Series A.'},
-            {week: 1, day: 'Monday', daysFromStart: 0, title: '📢 Marketing: Create Content Calendar', description: 'Set up posting schedule and strategy.', type: 'marketing', team: 'marketing', content: 'CONTENT CALENDAR:\n- Platform: LinkedIn\n- Time: Tuesday 10 AM\n- Frequency: 1 post/week\n- Duration: 12 weeks'},
-            {week: 1, day: 'Tuesday', daysFromStart: 1, title: '📱 Post #1: Introduction', description: 'Your positioning post.', type: 'post', team: 'you', content: 'Excited to share what we\'re seeing in the cyber startup ecosystem.\n\nOver the past 8 months screening startups at Brooks Keret, I\'ve noticed patterns that most founders—and investors—are missing.\n\nWe evaluate ~25 cyber companies per month across seed and Series A.\n\nThis is a space where CFO fundamentals + cyber domain knowledge intersect.\n\nI\'ll be sharing insights from our screening room.\n\nLet\'s go. 🛡️\n\n#Cybersecurity #Startups #Finance #Funding'},
-            {week: 1, day: 'Wednesday', daysFromStart: 2, title: '📢 Marketing: Promote Post #1', description: 'Share post in relevant channels and communities.', type: 'marketing', team: 'marketing', content: null},
-            {week: 1, day: 'Friday', daysFromStart: 4, title: '📊 Analytics: Check Post #1 Performance', description: 'Log metrics and analyze engagement.', type: 'analytics', team: 'you', content: null, isMetrics: true},
+            {week: 1, day: 'Mon', daysFromStart: 0, title: '📋 Update LinkedIn Profile', description: 'Professional positioning', type: 'branding', team: 'marketing', content: 'HEADLINE: CFO Services @ Brooks Keret | Cyber Sector Finance & Startup Screening\n\nABOUT: Screen 20+ cyber startups/month. CFO fundamentals + cyber expertise.', isBranding: true},
+            {week: 1, day: 'Tue', daysFromStart: 1, title: '📱 Post #1: Introduction', description: 'Introduce positioning', type: 'post', team: 'you', content: 'Excited to share cyber startup patterns we see.\n\nOver 8 months screening at Brooks Keret, noticed patterns most founders miss.\n\n~25 cyber companies/month, seed to Series A.\n\nCFO fundamentals + cyber knowledge = fundability.\n\nLet\'s go 🛡️\n\n#CyberSecurity #Startups #Finance #Funding'},
+            {week: 1, day: 'Wed', daysFromStart: 2, title: '📢 Marketing: Amplify Post #1', description: 'Share in channels', type: 'marketing', team: 'marketing', content: null},
+            {week: 1, day: 'Thu', daysFromStart: 3, title: '🎤 Speaking: Apply to 2 Conferences', description: 'Submit to cyber/fintech events', type: 'speaking', team: 'you', content: 'TARGET EVENTS:\n- CyberTech Tel Aviv\n- Calcalist Tech Summit\n- Cyber Israel Events\n\nPITCH: "From Screening to Series A: Financial Due Diligence in Cyber"'},
+            {week: 1, day: 'Fri', daysFromStart: 4, title: '📊 Analytics: Check Post #1', description: 'Log baseline metrics', type: 'analytics', team: 'you', isMetrics: true},
 
             // WEEK 2
-            {week: 2, day: 'Monday', daysFromStart: 7, title: '📊 Prepare Insight #1 Data', description: 'Research and prepare your top pattern.', type: 'research', team: 'you', content: 'PREPARATION:\n1. Top pattern observed?\n2. How many startups affected?\n3. Concrete impact?\n4. What can founders do?'},
-            {week: 2, day: 'Tuesday', daysFromStart: 8, title: '📱 Post #2: First Pattern', description: 'Share your first insight.', type: 'post', team: 'you', content: '🔍 Screening Room Insight #1\n\nLast month, evaluated 25 cyber startups.\n\n[FILL: Your Pattern Name]\n\nWhat we saw:\n- [FILL: Observation 1]\n- [FILL: Observation 2]\n\nWhy this matters: [FILL]\n\nWhat founders can do: [FILL]\n\n#CyberStartups #Founders #Funding'},
-            {week: 2, day: 'Wednesday', daysFromStart: 9, title: '📢 Marketing: Amplify Post #2', description: 'Share across channels.', type: 'marketing', team: 'marketing', content: null},
-            {week: 2, day: 'Friday', daysFromStart: 11, title: '📊 Analytics: Check Post #2 Performance', description: 'Log metrics.', type: 'analytics', team: 'you', content: null, isMetrics: true},
+            {week: 2, day: 'Mon', daysFromStart: 7, title: '📚 Research: Top 3 Patterns', description: 'Prepare pattern insights', type: 'research', team: 'you', content: 'INTERVIEW 5 FOUNDERS:\n1. Pricing mistakes?\n2. Burn rate blind spots?\n3. GTM issues?\n4. Team composition?\n5. Unit econ gaps?'},
+            {week: 2, day: 'Tue', daysFromStart: 8, title: '📱 Post #2: First Pattern', description: 'Pricing or burn rate', type: 'post', team: 'you', content: '🔍 Pattern #1\n\n[FILL: Name]\n\nWhat we saw:\n- [Observation 1]\n- [Observation 2]\n\nWhy matters: [Impact]\n\nFix: [Tip]\n\n#CyberStartups'},
+            {week: 2, day: 'Wed', daysFromStart: 9, title: '📢 Marketing: Create Graphics', description: 'Design post graphics', type: 'branding', team: 'marketing', isBranding: true},
+            {week: 2, day: 'Thu', daysFromStart: 10, title: '👥 Meeting: Schedule CISO Coffee', description: 'Network with security leaders', type: 'meeting', team: 'you', isMeeting: true},
+            {week: 2, day: 'Fri', daysFromStart: 11, title: '📊 Analytics: Check Post #2', description: 'Log metrics', type: 'analytics', team: 'you', isMetrics: true},
 
             // WEEK 3
-            {week: 3, day: 'Tuesday', daysFromStart: 15, title: '📱 Post #3: Second Pattern', description: 'Share your second insight.', type: 'post', team: 'you', content: '🔍 Screening Room Insight #2\n\n[FILL: Pattern Name]\n\nWhat we saw:\n- [FILL: Observation 1]\n- [FILL: Observation 2]\n\nWhy this matters: [FILL]\n\nWhat founders can do: [FILL]\n\n#CyberStartups #Founders'},
-            {week: 3, day: 'Wednesday', daysFromStart: 16, title: '📢 Marketing: Promote Post #3', description: 'Share across channels.', type: 'marketing', team: 'marketing', content: null},
-            {week: 3, day: 'Friday', daysFromStart: 18, title: '📊 Analytics: Check Post #3 Performance', description: 'Log metrics.', type: 'analytics', team: 'you', content: null, isMetrics: true},
+            {week: 3, day: 'Mon', daysFromStart: 14, title: '🎤 Speaking: Prep Pitch Deck', description: 'Create speaking deck', type: 'speaking', team: 'you', content: 'DECK STRUCTURE:\n1. Intro - Who you are\n2. Problem - What founders miss\n3. Data - Your screening insights\n4. Solutions - What actually works\n5. Brooks Keret - Your services\n6. CTA - Connect'},
+            {week: 3, day: 'Tue', daysFromStart: 15, title: '📱 Post #3: Second Pattern', description: 'Unit economics or GTM', type: 'post', team: 'you', content: '🔍 Pattern #2\n\n[FILL: Name]\n\nWhat we saw:\n- [Observation 1]\n- [Observation 2]\n\nWhy matters: [Impact]\n\nFix: [Tip]\n\n#CyberStartups #Founders'},
+            {week: 3, day: 'Wed', daysFromStart: 16, title: '🎥 Content: Record 30sec Video', description: 'LinkedIn video post', type: 'marketing', team: 'marketing', content: null},
+            {week: 3, day: 'Thu', daysFromStart: 17, title: '🔍 Research: Identify 5 Target Investors', description: 'Cyber-focused VCs/angels', type: 'research', team: 'you', content: 'FIND:\n- Name\n- Focus area\n- Investment size\n- LinkedIn\n- Contact method'},
+            {week: 3, day: 'Fri', daysFromStart: 18, title: '📊 Analytics: Check Post #3', description: 'Log metrics', type: 'analytics', team: 'you', isMetrics: true},
 
             // WEEK 4
-            {week: 4, day: 'Tuesday', daysFromStart: 22, title: '📱 Post #4: Case Study', description: 'Share anonymized founder case study.', type: 'post', team: 'you', content: '📊 What We Learned From Screening\n\nWhat stood out:\n1. [FILL]\n2. [FILL]\n3. [FILL]\n\nBiggest win: [FILL]\nBiggest miss: [FILL]\n\n#Screening #Founders'},
-            {week: 4, day: 'Wednesday', daysFromStart: 23, title: '📢 Marketing: Amplify Post #4', description: 'Share across channels.', type: 'marketing', team: 'marketing', content: null},
-            {week: 4, day: 'Friday', daysFromStart: 25, title: '📊 Analytics: Check Post #4 Performance', description: 'Log metrics.', type: 'analytics', team: 'you', content: null, isMetrics: true},
+            {week: 4, day: 'Mon', daysFromStart: 21, title: '📧 Outreach: Email 5 Investors', description: 'Introduce yourself & Brooks Keret', type: 'marketing', team: 'marketing', content: 'TEMPLATE:\nHi [Name],\n\nWe screen 20+ cyber startups monthly. Pattern insights attached.\n\nThought you might find interesting.\n\nOpen for conversation.\n\n[Your Name]\nBrooks Keret'},
+            {week: 4, day: 'Tue', daysFromStart: 22, title: '📱 Post #4: Case Study', description: 'Anonymized founder story', type: 'post', team: 'you', content: '📊 What We Learned\n\n[FILL: Anonymous startup]\n\nWhat stood out:\n1. [Insight 1]\n2. [Insight 2]\n3. [Insight 3]\n\nWin: [What right]\nMiss: [What improve]\n\n#Screening #Founders'},
+            {week: 4, day: 'Wed', daysFromStart: 23, title: '🎨 Branding: Update About Section', description: 'Refresh LinkedIn about', type: 'branding', team: 'marketing', isBranding: true},
+            {week: 4, day: 'Thu', daysFromStart: 24, title: '🎤 Speaking: Submit Abstract #2', description: 'Apply to another event', type: 'speaking', team: 'you', isSpeaking: true},
+            {week: 4, day: 'Fri', daysFromStart: 25, title: '📊 Analytics: Check Post #4', description: 'Log metrics', type: 'analytics', team: 'you', isMetrics: true},
 
-            // WEEK 5
-            {week: 5, day: 'Tuesday', daysFromStart: 29, title: '📱 Post #5: Monthly Benchmarks', description: 'Share benchmarking data.', type: 'post', team: 'you', content: '📈 Cyber Startup Benchmarks\n\n**Funding**\n- Median seed: $[FILL]\n- Median Series A: $[FILL]\n\n**Metrics**\n- Median CAC: $[FILL]\n- Growth: [FILL]%\n- Runway: [FILL] months\n\n#Benchmarks'},
-            {week: 5, day: 'Wednesday', daysFromStart: 30, title: '📢 Marketing: Promote Post #5', description: 'Share across channels.', type: 'marketing', team: 'marketing', content: null},
-            {week: 5, day: 'Friday', daysFromStart: 32, title: '📊 Analytics: Check Post #5 Performance', description: 'Log metrics.', type: 'analytics', team: 'you', content: null, isMetrics: true},
+            // WEEK 5 - BENCHMARK
+            {week: 5, day: 'Mon', daysFromStart: 28, title: '📊 Compile Benchmarks', description: 'Gather screening metrics', type: 'research', team: 'you', content: 'COLLECT:\n- Startups screened\n- Median CAC\n- Median burn\n- Median runway\n- Common red flags\n- Fundable characteristics'},
+            {week: 5, day: 'Tue', daysFromStart: 29, title: '📱 Post #5: Monthly Benchmarks', description: 'Share anonymized data', type: 'post', team: 'you', content: '📈 Cyber Benchmarks [Month]\n\nScreened 25+ startups:\n\nMEDIAN:\n- Seed: $[X]\n- Series A: $[X]\n- CAC: $[X]\n- Burn: $[X]/mo\n- Runway: [X] mo\n\nTOP RED FLAG:\n[Fill]\n\n#Benchmarks #Data'},
+            {week: 5, day: 'Wed', daysFromStart: 30, title: '🎤 Speaking: Confirm 1st Speaking Slot', description: 'Lock in first event', type: 'speaking', team: 'you', isSpeaking: true},
+            {week: 5, day: 'Thu', daysFromStart: 31, title: '👥 Meeting: Schedule Investor Coffee', description: 'Warm intro with angel/VC', type: 'meeting', team: 'you', isMeeting: true},
+            {week: 5, day: 'Fri', daysFromStart: 32, title: '📊 Analytics: Check Post #5', description: 'Log metrics', type: 'analytics', team: 'you', isMetrics: true},
 
-            // WEEK 6-12 (Simplified for length)
-            {week: 6, day: 'Tuesday', daysFromStart: 36, title: '📱 Post #6: Investor Metrics', description: 'What investors ask about.', type: 'post', team: 'you', content: '🎯 3 Metrics Cyber Investors Ask For\n\n1. CAC Payback < 12 months\n2. Gross Margin > 65%\n3. YoY Growth > 100%\n\n#Fundraising #Investors'},
-            {week: 6, day: 'Friday', daysFromStart: 40, title: '📊 Analytics: Check Post #6 Performance', description: 'Log metrics.', type: 'analytics', team: 'you', content: null, isMetrics: true},
-            {week: 7, day: 'Tuesday', daysFromStart: 43, title: '📱 Post #7: Common Mistakes', description: '3 biggest mistakes.', type: 'post', team: 'you', content: '🔴 3 Mistakes Every Cyber Startup Makes\n\n**#1: Features > Dollars**\n**#2: Wrong GTM**\n**#3: Underestimate Sales Cycles**\n\n#FundingAdvice'},
-            {week: 7, day: 'Friday', daysFromStart: 47, title: '📊 Analytics: Check Post #7 Performance', description: 'Log metrics.', type: 'analytics', team: 'you', content: null, isMetrics: true},
-            {week: 8, day: 'Tuesday', daysFromStart: 50, title: '📱 Post #8: Founder Traits', description: 'Success traits.', type: 'post', team: 'you', content: '👥 Founder Traits We Look For\n\n1. Financial Literacy\n2. Coachability\n3. Realistic Optimism\n4. Sales DNA\n\n#Founders #Leadership'},
-            {week: 8, day: 'Friday', daysFromStart: 54, title: '📊 Analytics: Check Post #8 Performance', description: 'Log metrics.', type: 'analytics', team: 'you', content: null, isMetrics: true},
-            {week: 9, day: 'Tuesday', daysFromStart: 57, title: '📱 Post #9: 2024 Trends', description: 'Cyber funding trends.', type: 'post', team: 'you', content: '📊 2024 Cyber Funding Trends\n\nSeeing MORE: B2B2C, API-first, AI, Compliance\nSeeing LESS: Pure tech, Enterprise-only\n\n#CyberSecurity'},
-            {week: 9, day: 'Friday', daysFromStart: 61, title: '📊 Analytics: Check Post #9 Performance', description: 'Log metrics.', type: 'analytics', team: 'you', content: null, isMetrics: true},
-            {week: 10, day: 'Tuesday', daysFromStart: 64, title: '📱 Post #10: Unit Economics', description: 'CAC deep dive.', type: 'post', team: 'you', content: '💰 Unit Economics in Cyber\n\nMargins: 70%+\nPayback: 18-24 months\n\nWhat to do:\n1. Know payback\n2. Model cash\n3. Raise 18+ months\n\n#Finance'},
-            {week: 10, day: 'Friday', daysFromStart: 68, title: '📊 Analytics: Check Post #10 Performance', description: 'Log metrics.', type: 'analytics', team: 'you', content: null, isMetrics: true},
-            {week: 11, day: 'Tuesday', daysFromStart: 71, title: '📱 Post #11: Future Bets', description: 'What you\'re betting on.', type: 'post', team: 'you', content: '🔮 Betting on in Cyber\n\nWINNERS:\n1. Boring GTM\n2. CAC Mastery\n3. Compliance First\n4. Sales + Engineering\n\n#CyberTrends'},
-            {week: 11, day: 'Friday', daysFromStart: 75, title: '📊 Analytics: Check Post #11 Performance', description: 'Log metrics.', type: 'analytics', team: 'you', content: null, isMetrics: true},
-            {week: 12, day: 'Tuesday', daysFromStart: 78, title: '📱 Post #12: Retrospective', description: 'Wrap up 12 weeks.', type: 'post', team: 'you', content: '🎯 11 Weeks of Cyber Insights\n\n✅ Unit economics\n✅ Price for value\n✅ Investor priorities\n✅ Sales teams\n\nNext: Monthly office hours.\n\n#CyberSecurity #Startups'},
-            {week: 12, day: 'Friday', daysFromStart: 82, title: '📊 Analytics: Final Review', description: 'Analyze 12-week performance.', type: 'analytics', team: 'you', content: null, isMetrics: true},
-            {week: 12, day: 'Friday', daysFromStart: 82, title: '🎉 Celebrate & Plan Month 4-12', description: 'Review success and next phase.', type: 'milestone', team: 'you', content: 'NEXT PHASE:\n✅ Month 1-3 complete\n\nMonth 4-12:\n1. Continue posting\n2. Monthly office hours\n3. Guest posts\n4. Speaking events\n\nYou\'ve built authority!'}
+            // WEEK 6
+            {week: 6, day: 'Tue', daysFromStart: 36, title: '📱 Post #6: Investor Metrics', description: 'What VCs actually care about', type: 'post', team: 'you', content: '🎯 3 Metrics Investors Ask For\n\n1. CAC Payback < 12mo\n   Shows repeatable GTM\n\n2. Gross Margin > 65%\n   Shows unit econ work\n\n3. YoY Growth > 100%\n   Shows PMF\n\nHave all 3? Series A easier.\n\n#Fundraising #Investors'},
+            {week: 6, day: 'Wed', daysFromStart: 37, title: '🎥 Content: Podcast Pitch', description: 'Pitch cyber/fintech podcasts', type: 'marketing', team: 'marketing', content: 'PITCH:\n"Screen 20+ cyber startups/month - want to share patterns founders/investors miss"'},
+            {week: 6, day: 'Fri', daysFromStart: 40, title: '📊 Analytics: Check Post #6', description: 'Log metrics', type: 'analytics', team: 'you', isMetrics: true},
+
+            // WEEK 7
+            {week: 7, day: 'Mon', daysFromStart: 42, title: '🎤 Speaking: Prepare 1st Talk', description: 'Final prep for first event', type: 'speaking', team: 'you', isSpeaking: true},
+            {week: 7, day: 'Tue', daysFromStart: 43, title: '📱 Post #7: Common Mistakes', description: '3 mistakes 70% make', type: 'post', team: 'you', content: '🔴 3 Mistakes Cyber Startups Make\n\n#1: Features > Dollars\n#2: Wrong GTM for stage\n#3: Underestimate sales cycles\n\nIf not making these? Ahead of 70%.\n\n#FundingAdvice #CyberSecurity'},
+            {week: 7, day: 'Thu', daysFromStart: 45, title: '🎤 Speaking: PRESENT - First Event', description: '✨ Your first speaking engagement', type: 'speaking', team: 'you', isSpeaking: true},
+            {week: 7, day: 'Fri', daysFromStart: 46, title: '📊 Analytics: Check Post #7', description: 'Log metrics', type: 'analytics', team: 'you', isMetrics: true},
+
+            // WEEK 8
+            {week: 8, day: 'Mon', daysFromStart: 49, title: '📝 Content: Guest Post Pitch', description: 'Pitch to cyber publications', type: 'marketing', team: 'marketing', content: 'TARGET:\n- Venturebeat\n- Cybersecurity Magazine\n- TechCrunch\n\nTOPIC: "What Makes Cyber Startups Fundable"'},
+            {week: 8, day: 'Tue', daysFromStart: 50, title: '📱 Post #8: Founder Traits', description: 'What predicts success', type: 'post', team: 'you', content: '👥 Founder Traits We Look For\n\n1. Financial Literacy\n2. Coachability\n3. Realistic Optimism\n4. Sales DNA\n\nHave all 4? Series A coming.\n\n#Founders #Leadership'},
+            {week: 8, day: 'Wed', daysFromStart: 51, title: '🎤 Speaking: Apply to 2 More Events', description: 'Submit to next round', type: 'speaking', team: 'you', isSpeaking: true},
+            {week: 8, day: 'Fri', daysFromStart: 54, title: '📊 Analytics: Check Post #8', description: 'Log metrics', type: 'analytics', team: 'you', isMetrics: true},
+
+            // WEEK 9
+            {week: 9, day: 'Tue', daysFromStart: 57, title: '📱 Post #9: 2025 Trends', description: 'What\'s changing in cyber funding', type: 'post', team: 'you', content: '📊 2025 Cyber Funding Trends\n\nSEEING MORE:\n- B2B2C models\n- API-first\n- AI-assisted detection\n- Compliance-first\n\nSEEING LESS:\n- Pure tech\n- Enterprise-only\n- "Like CrowdStrike but cheaper"\n\n#CyberTrends'},
+            {week: 9, day: 'Wed', daysFromStart: 58, title: '📊 Research: Q2 Benchmarks', description: 'Collect new benchmark data', type: 'research', team: 'you', content: null},
+            {week: 9, day: 'Thu', daysFromStart: 59, title: '👥 Meeting: CISO Roundtable', description: 'Host/attend security leader discussion', type: 'meeting', team: 'you', isMeeting: true},
+            {week: 9, day: 'Fri', daysFromStart: 61, title: '📊 Analytics: Check Post #9', description: 'Log metrics', type: 'analytics', team: 'you', isMetrics: true},
+
+            // WEEK 10
+            {week: 10, day: 'Mon', daysFromStart: 63, title: '🎤 Speaking: Confirm 2nd Event', description: 'Lock in second talk', type: 'speaking', team: 'you', isSpeaking: true},
+            {week: 10, day: 'Tue', daysFromStart: 64, title: '📱 Post #10: Unit Economics', description: 'Deep dive on CAC', type: 'post', team: 'you', content: '💰 Unit Economics in Cyber\n\nMargins: 70%+ ✅\nPayback: 18-24mo 😬\n\nDO:\n1. Know exact payback\n2. Model cash to breakeven\n3. Raise 18+ months\n\n60% underestimate by 3-6mo.\n\n#UnitEconomics #Finance'},
+            {week: 10, day: 'Wed', daysFromStart: 65, title: '📢 Marketing: Host Webinar', description: 'Free webinar for community', type: 'marketing', team: 'marketing', content: null},
+            {week: 10, day: 'Fri', daysFromStart: 68, title: '📊 Analytics: Check Post #10', description: 'Log metrics', type: 'analytics', team: 'you', isMetrics: true},
+
+            // WEEK 11
+            {week: 11, day: 'Mon', daysFromStart: 70, title: '🎤 Speaking: Prep 2nd Talk', description: 'Prepare second event', type: 'speaking', team: 'you', isSpeaking: true},
+            {week: 11, day: 'Tue', daysFromStart: 71, title: '📱 Post #11: Future Bets', description: 'What you\'re betting on', type: 'post', team: 'you', content: '🔮 Betting on in Cyber\n\nWINNERS:\n1. Boring GTM\n2. CAC mastery\n3. Compliance first\n4. Sales + Engineering\n\nIf founding/investing - these bets.\n\n#CyberTrends #Startups'},
+            {week: 11, day: 'Wed', daysFromStart: 72, title: '🎤 Speaking: PRESENT - 2nd Event', description: '✨ Your second speaking slot', type: 'speaking', team: 'you', isSpeaking: true},
+            {week: 11, day: 'Fri', daysFromStart: 75, title: '📊 Analytics: Check Post #11', description: 'Log metrics', type: 'analytics', team: 'you', isMetrics: true},
+
+            // WEEK 12 - FINALE
+            {week: 12, day: 'Mon', daysFromStart: 77, title: '📝 Content: Publish Guest Post', description: 'Launch on publication', type: 'marketing', team: 'marketing', content: null},
+            {week: 12, day: 'Tue', daysFromStart: 78, title: '📱 Post #12: Retrospective', description: 'Wrap up 12-week journey', type: 'post', team: 'you', content: '🎯 12 Weeks of Cyber Insights\n\n✅ Unit economics\n✅ Price for value\n✅ Investor priorities\n✅ Sales teams\n✅ Spoke at 2 events\n✅ Met 5+ CISOs\n\nNext: Monthly office hours.\n\n#CyberSecurity #Startups'},
+            {week: 12, day: 'Wed', daysFromStart: 79, title: '📊 Analytics: 12-Week Review', description: 'Full program analysis', type: 'analytics', team: 'you', isMetrics: true},
+            {week: 12, day: 'Thu', daysFromStart: 80, title: '🎯 Planning: Month 4-12 Strategy', description: 'Plan next 9 months', type: 'research', team: 'you', content: 'MONTH 4-12:\n1. Continue posting (templates)\n2. Monthly office hours\n3. 2-3 speaking events/quarter\n4. Guest post monthly\n5. Build consulting pipeline\n6. Track ROI to Brooks Keret'},
+            {week: 12, day: 'Fri', daysFromStart: 82, title: '🎉 Celebrate & Launch Phase 2', description: 'You\'re an authority now!', type: 'milestone', team: 'you', content: 'CELEBRATE!\n\nYou\'ve built:\n✅ 12 LinkedIn posts\n✅ 2 speaking events\n✅ 10+ CISO connections\n✅ Guest post published\n✅ Authority in cyber finance\n\nNow multiply the impact.'}
         ];
 
         let tasks = [];
         let completedTasks = [];
         let startDate = null;
+        let savedData = {};
 
         function loadData() {
             const saved = localStorage.getItem('cyberAuthorityTimeline');
@@ -534,6 +589,7 @@
                 const data = JSON.parse(saved);
                 completedTasks = data.completedTasks || [];
                 startDate = data.startDate;
+                savedData = data.savedData || {};
                 document.getElementById('startDate').value = startDate || new Date().toISOString().split('T')[0];
                 updateTimeline();
             } else {
@@ -545,7 +601,7 @@
         }
 
         function saveData() {
-            localStorage.setItem('cyberAuthorityTimeline', JSON.stringify({completedTasks, startDate}));
+            localStorage.setItem('cyberAuthorityTimeline', JSON.stringify({completedTasks, startDate, savedData}));
         }
 
         function updateTimeline() {
@@ -568,7 +624,6 @@
             const timeline = document.getElementById('timeline');
             timeline.innerHTML = '';
 
-            const today = new Date().toISOString().split('T')[0];
             let currentWeek = 0;
             let weekTasks = [];
 
@@ -613,15 +668,20 @@
             const taskDate = new Date(task.actualDate + 'T00:00:00');
             const dateStr = taskDate.toLocaleDateString('en-US', {month: 'short', day: 'numeric'});
 
-            let teamLabel = task.team === 'marketing' ? '👥' : task.team === 'you' ? '👤' : '📊';
-            let statusHtml = `<div class="task-status">${teamLabel} ${task.type}</div>`;
+            let statusHtml = `<div class="task-status type-${task.type}">${task.type}</div>`;
 
             let actionsHTML = `<button class="task-btn" onclick="toggleTask('${taskId.replace(/'/g, "\\'")}')">${isCompleted ? 'Undo ↩️' : 'Done ✓'}</button>`;
 
             if (task.content) {
-                actionsHTML = `<button class="task-btn" onclick="showModal('${task.title.replace(/'/g, "\\'")}', '${task.description.replace(/'/g, "\\'")}', \`${task.content.replace(/`/g, '\\`')}\`, ${task.isMetrics})">📖 View</button>` + actionsHTML;
+                actionsHTML = `<button class="task-btn" onclick="showModal('${task.title.replace(/'/g, "\\'")}', '${task.description.replace(/'/g, "\\'")}', \`${task.content.replace(/`/g, '\\`')}\`, false, false)">📖 View</button>` + actionsHTML;
             } else if (task.isMetrics) {
-                actionsHTML = `<button class="task-btn" onclick="showMetricsModal('${task.title.replace(/'/g, "\\'")}', '${task.description.replace(/'/g, "\\'")}'")">📊 Log</button>` + actionsHTML;
+                actionsHTML = `<button class="task-btn" onclick="showMetricsModal('${task.title.replace(/'/g, "\\'")}', '${task.description.replace(/'/g, "\\'")}')")>📊 Log</button>` + actionsHTML;
+            } else if (task.isSpeaking) {
+                actionsHTML = `<button class="task-btn" onclick="showSpeakingModal('${task.title.replace(/'/g, "\\'")}', '${task.description.replace(/'/g, "\\'")}')")>🎤 Log</button>` + actionsHTML;
+            } else if (task.isMeeting) {
+                actionsHTML = `<button class="task-btn" onclick="showMeetingModal('${task.title.replace(/'/g, "\\'")}', '${task.description.replace(/'/g, "\\'")}')")>👥 Log</button>` + actionsHTML;
+            } else if (task.isBranding) {
+                actionsHTML = `<button class="task-btn" onclick="showBrandingModal('${task.title.replace(/'/g, "\\'")}', '${task.description.replace(/'/g, "\\'")}')")>🎨 Log</button>` + actionsHTML;
             }
 
             taskEl.innerHTML = `
@@ -658,31 +718,97 @@
             render();
         }
 
-        function showModal(title, description, content, isMetrics) {
+        function showModal(title, description, content, isMetrics, isMulti) {
             const modal = document.getElementById('modal');
             document.getElementById('modalTitle').textContent = title;
             document.getElementById('modalBody').textContent = description;
-            document.getElementById('contentSection').classList.toggle('hidden', isMetrics);
-            document.getElementById('metricsSection').classList.toggle('hidden', !isMetrics);
-            document.getElementById('copyBtn').classList.toggle('hidden', isMetrics);
+            document.getElementById('contentSection').classList.add('hidden');
+            document.getElementById('metricsSection').classList.add('hidden');
+            document.getElementById('speakingSection').classList.add('hidden');
+            document.getElementById('meetingSection').classList.add('hidden');
+            document.getElementById('brandingSection').classList.add('hidden');
+            document.getElementById('copyBtn').classList.add('hidden');
 
-            if (content && content.length > 0 && !isMetrics) {
+            if (!isMetrics) {
+                document.getElementById('contentSection').classList.remove('hidden');
                 document.getElementById('contentTextarea').value = content;
-            }
-
-            if (isMetrics) {
-                document.getElementById('metricsImpressions').value = '';
-                document.getElementById('metricsLikes').value = '';
-                document.getElementById('metricsComments').value = '';
-                document.getElementById('metricsShares').value = '';
-                document.getElementById('metricsFeedback').classList.add('hidden');
+                document.getElementById('copyBtn').classList.remove('hidden');
             }
 
             modal.classList.add('show');
         }
 
         function showMetricsModal(title, description) {
-            showModal(title, description, '', true);
+            const modal = document.getElementById('modal');
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalBody').textContent = description;
+            document.getElementById('contentSection').classList.add('hidden');
+            document.getElementById('metricsSection').classList.remove('hidden');
+            document.getElementById('speakingSection').classList.add('hidden');
+            document.getElementById('meetingSection').classList.add('hidden');
+            document.getElementById('brandingSection').classList.add('hidden');
+            document.getElementById('copyBtn').classList.add('hidden');
+            
+            document.getElementById('metricsImpressions').value = '';
+            document.getElementById('metricsLikes').value = '';
+            document.getElementById('metricsComments').value = '';
+            document.getElementById('metricsShares').value = '';
+            document.getElementById('metricsFeedback').classList.add('hidden');
+            
+            modal.classList.add('show');
+        }
+
+        function showSpeakingModal(title, description) {
+            const modal = document.getElementById('modal');
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalBody').textContent = description;
+            document.getElementById('contentSection').classList.add('hidden');
+            document.getElementById('metricsSection').classList.add('hidden');
+            document.getElementById('speakingSection').classList.remove('hidden');
+            document.getElementById('meetingSection').classList.add('hidden');
+            document.getElementById('brandingSection').classList.add('hidden');
+            document.getElementById('copyBtn').classList.add('hidden');
+            
+            document.getElementById('speakingEvent').value = '';
+            document.getElementById('speakingTopic').value = '';
+            document.getElementById('speakingLink').value = '';
+            document.getElementById('speakingNotes').value = '';
+            
+            modal.classList.add('show');
+        }
+
+        function showMeetingModal(title, description) {
+            const modal = document.getElementById('modal');
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalBody').textContent = description;
+            document.getElementById('contentSection').classList.add('hidden');
+            document.getElementById('metricsSection').classList.add('hidden');
+            document.getElementById('speakingSection').classList.add('hidden');
+            document.getElementById('meetingSection').classList.remove('hidden');
+            document.getElementById('brandingSection').classList.add('hidden');
+            document.getElementById('copyBtn').classList.add('hidden');
+            
+            document.getElementById('meetingName').value = '';
+            document.getElementById('meetingCompany').value = '';
+            document.getElementById('meetingTopics').value = '';
+            
+            modal.classList.add('show');
+        }
+
+        function showBrandingModal(title, description) {
+            const modal = document.getElementById('modal');
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalBody').textContent = description;
+            document.getElementById('contentSection').classList.add('hidden');
+            document.getElementById('metricsSection').classList.add('hidden');
+            document.getElementById('speakingSection').classList.add('hidden');
+            document.getElementById('meetingSection').classList.add('hidden');
+            document.getElementById('brandingSection').classList.remove('hidden');
+            document.getElementById('copyBtn').classList.add('hidden');
+            
+            document.getElementById('brandingDetails').value = '';
+            
+            modal.classList.add('show');
         }
 
         function closeModal() {
@@ -714,15 +840,15 @@
                 
                 if (engagement >= 3) {
                     message = `🔥 Great engagement! ${engagement}% - Keep this momentum!`;
-                    cssClass = 'good';
+                    cssClass = '';
                 } else if (engagement >= 1.5) {
-                    message = `✅ Good engagement: ${engagement}% - This is solid performance.`;
-                    cssClass = 'good';
+                    message = `✅ Good engagement: ${engagement}% - This is solid.`;
+                    cssClass = '';
                 } else if (engagement >= 0.5) {
-                    message = `⚠️ Moderate engagement: ${engagement}% - Consider A/B testing different topics.`;
+                    message = `⚠️ Moderate: ${engagement}% - Try different topics.`;
                     cssClass = 'warning';
                 } else {
-                    message = `📊 Low engagement: ${engagement}% - Try different timing or format.`;
+                    message = `📊 Low: ${engagement}% - Try different timing.`;
                     cssClass = 'warning';
                 }
             }
@@ -730,6 +856,44 @@
             feedback.textContent = message;
             feedback.className = 'metrics-feedback ' + cssClass;
             feedback.classList.remove('hidden');
+        }
+
+        function saveSpeakingData() {
+            const data = {
+                event: document.getElementById('speakingEvent').value,
+                topic: document.getElementById('speakingTopic').value,
+                link: document.getElementById('speakingLink').value,
+                notes: document.getElementById('speakingNotes').value
+            };
+            savedData.speaking = savedData.speaking || [];
+            savedData.speaking.push(data);
+            saveData();
+            alert('✅ Speaking event logged!');
+            closeModal();
+        }
+
+        function saveMeetingData() {
+            const data = {
+                name: document.getElementById('meetingName').value,
+                company: document.getElementById('meetingCompany').value,
+                topics: document.getElementById('meetingTopics').value
+            };
+            savedData.meetings = savedData.meetings || [];
+            savedData.meetings.push(data);
+            saveData();
+            alert('✅ Meeting logged!');
+            closeModal();
+        }
+
+        function saveBrandingData() {
+            const data = {
+                details: document.getElementById('brandingDetails').value
+            };
+            savedData.branding = savedData.branding || [];
+            savedData.branding.push(data);
+            saveData();
+            alert('✅ Branding task saved!');
+            closeModal();
         }
 
         function updateProgress() {
