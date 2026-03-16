@@ -41,43 +41,43 @@
         }
 
         .header {
-            padding: 16px;
+            padding: 12px 16px;
             background: rgba(15, 23, 42, 0.9);
             border-bottom: 1px solid rgba(34, 211, 238, 0.2);
             flex-shrink: 0;
-            overflow-y: auto;
-            max-height: 200px;
         }
 
         .header h1 {
-            font-size: 24px;
+            font-size: 20px;
             margin-bottom: 8px;
         }
 
         .start-date-section {
             background: rgba(34, 211, 238, 0.1);
             border: 1px solid rgba(34, 211, 238, 0.2);
-            padding: 12px;
+            padding: 10px;
             border-radius: 8px;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .start-date-section label {
-            display: block;
             font-size: 11px;
             color: #94a3b8;
-            margin-bottom: 6px;
             font-weight: 600;
+            white-space: nowrap;
         }
 
         .start-date-input {
-            width: 100%;
-            padding: 10px;
+            flex: 1;
+            padding: 8px;
             background: rgba(15, 23, 42, 0.8);
             border: 1px solid rgba(34, 211, 238, 0.3);
             border-radius: 6px;
             color: #22d3ee;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
         }
 
@@ -89,11 +89,11 @@
 
         .progress-bar {
             width: 100%;
-            height: 8px;
+            height: 6px;
             background: rgba(34, 211, 238, 0.1);
-            border-radius: 4px;
+            border-radius: 3px;
             overflow: hidden;
-            margin-top: 12px;
+            margin-bottom: 6px;
         }
 
         .progress-fill {
@@ -103,16 +103,15 @@
         }
 
         .progress-text {
-            font-size: 12px;
+            font-size: 11px;
             color: #94a3b8;
-            margin-top: 8px;
         }
 
         .content {
             flex: 1;
             overflow-y: auto;
             overflow-x: hidden;
-            padding: 16px;
+            padding: 12px;
             padding-bottom: 20px;
         }
 
@@ -189,7 +188,7 @@
         }
 
         .task-status {
-            font-size: 11px;
+            font-size: 10px;
             padding: 4px 8px;
             background: rgba(34, 211, 238, 0.1);
             color: #22d3ee;
@@ -244,34 +243,6 @@
 
         .task-btn:active {
             background: rgba(34, 211, 238, 0.2);
-        }
-
-        .today-marker {
-            text-align: center;
-            padding: 20px 0 12px;
-            position: relative;
-        }
-
-        .today-marker::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            right: 0;
-            top: 8px;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, #22d3ee, transparent);
-        }
-
-        .today-badge {
-            display: inline-block;
-            padding: 4px 12px;
-            background: linear-gradient(135deg, #06b6d4 0%, #0284c7 100%);
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 700;
-            color: white;
-            position: relative;
-            z-index: 1;
         }
 
         .week-section {
@@ -389,8 +360,55 @@
             color: #cbd5e1;
         }
 
-        .btn-secondary:active {
-            transform: scale(0.98);
+        .metrics-form {
+            background: rgba(34, 211, 238, 0.1);
+            border: 1px solid rgba(34, 211, 238, 0.2);
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+
+        .metrics-form label {
+            display: block;
+            font-size: 11px;
+            color: #cbd5e1;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        .metrics-form input {
+            width: 100%;
+            padding: 8px;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(34, 211, 238, 0.2);
+            border-radius: 6px;
+            color: #fff;
+            font-size: 12px;
+            margin-bottom: 8px;
+        }
+
+        .metrics-form input:focus {
+            border-color: #22d3ee;
+            outline: none;
+        }
+
+        .metrics-feedback {
+            font-size: 12px;
+            padding: 8px;
+            border-radius: 6px;
+            margin-top: 8px;
+        }
+
+        .metrics-feedback.good {
+            background: rgba(34, 197, 94, 0.1);
+            color: #86efac;
+            border: 1px solid rgba(34, 197, 94, 0.2);
+        }
+
+        .metrics-feedback.warning {
+            background: rgba(251, 191, 36, 0.1);
+            color: #fcd34d;
+            border: 1px solid rgba(251, 191, 36, 0.2);
         }
 
         .hidden {
@@ -402,10 +420,9 @@
     <div id="app">
         <div class="header">
             <h1>🛡️ Cyber Authority</h1>
-            <p style="font-size: 12px; color: #94a3b8; margin-bottom: 12px;">12-Week Timeline</p>
             
             <div class="start-date-section">
-                <label>📅 Program Start Date</label>
+                <label>📅 Start:</label>
                 <input type="date" id="startDate" class="start-date-input">
             </div>
 
@@ -428,36 +445,83 @@
             <div class="modal-body" id="modalBody"></div>
             
             <div id="contentSection" class="hidden">
-                <label style="display: block; font-size: 12px; color: #cbd5e1; margin-bottom: 6px; font-weight: 600;">📋 Ready to copy:</label>
+                <label style="display: block; font-size: 12px; color: #cbd5e1; margin-bottom: 6px; font-weight: 600;">📋 Content:</label>
                 <textarea id="contentTextarea" readonly></textarea>
+            </div>
+
+            <div id="metricsSection" class="hidden">
+                <div class="metrics-form">
+                    <label>👁️ Impressions:</label>
+                    <input type="number" id="metricsImpressions" placeholder="0">
+                    
+                    <label>❤️ Likes:</label>
+                    <input type="number" id="metricsLikes" placeholder="0">
+                    
+                    <label>💬 Comments:</label>
+                    <input type="number" id="metricsComments" placeholder="0">
+                    
+                    <label>🔄 Shares:</label>
+                    <input type="number" id="metricsShares" placeholder="0">
+                    
+                    <button class="task-btn" onclick="calculateMetrics()" style="width: 100%; margin-top: 12px;">Calculate Feedback</button>
+                    
+                    <div id="metricsFeedback" class="metrics-feedback hidden" style="margin-top: 12px;"></div>
+                </div>
             </div>
 
             <div class="modal-actions">
                 <button class="btn-secondary" onclick="closeModal()">Close</button>
-                <button class="btn-primary" onclick="copyContent()">📋 Copy</button>
+                <button class="btn-primary" id="copyBtn" onclick="copyContent()" class="hidden">📋 Copy</button>
             </div>
         </div>
     </div>
 
     <script>
         const baseTimeline = [
-            {week: 1, day: 'Monday', daysFromStart: 0, title: '📋 Update LinkedIn Profile', description: 'Update your headline and about section.', type: 'setup', content: 'LINKEDIN HEADLINE:\nCFO Services @ Brooks Keret | Cyber Sector Finance & Startup Screening\n\nABOUT SECTION:\nI screen 20+ cyber startups per month across seed and Series A. Focusing on the intersection of CFO fundamentals and cyber domain knowledge.\n\nIf you\'re a founder or investor in cyber, let\'s connect.'},
-            {week: 1, day: 'Monday', daysFromStart: 0, title: '📓 Create Content Calendar', description: 'Set up your posting schedule.', type: 'admin', content: 'POSTING SCHEDULE:\n- Time: Tuesday 10 AM (Israeli time)\n- Frequency: 1 post per week\n- Duration: 12 weeks\n\nEach post is pre-filled in this app.'},
-            {week: 1, day: 'Tuesday', daysFromStart: 1, title: '📱 Post #1: Introduction', description: 'Your positioning post.', type: 'post', content: 'Excited to share what we\'re seeing in the cyber startup ecosystem.\n\nOver the past 8 months screening startups at Brooks Keret, I\'ve noticed patterns that most founders—and investors—are missing.\n\nWe evaluate ~25 cyber companies per month across seed and Series A.\n\nThis is a space where CFO fundamentals + cyber domain knowledge intersect.\n\nI\'ll be sharing insights from our screening room to help founders and investors understand what makes a cyber startup truly fundable.\n\n(Hint: it\'s not the technology. It\'s the unit economics.)\n\nLet\'s go. 🛡️\n\n#Cybersecurity #Startups #Finance #Funding'},
-            {week: 1, day: 'Friday', daysFromStart: 4, title: '📊 Check Post #1 Metrics', description: 'Log impressions, likes, comments, shares.', type: 'tracking', content: null},
-            {week: 2, day: 'Monday', daysFromStart: 7, title: '📊 Prepare Insight #1 Data', description: 'Think about your top pattern.', type: 'research', content: 'PREPARATION:\n\n1. What is the main pattern you observed?\n2. How many startups affected?\n3. What\'s the concrete impact?\n4. What can founders do?'},
-            {week: 2, day: 'Tuesday', daysFromStart: 8, title: '📱 Post #2: First Pattern', description: 'Share your first insight.', type: 'post', content: '🔍 Screening Room Insight #1\n\nLast month, we evaluated 25 cyber startups.\nHere\'s what jumped out:\n\n[FILL: Your Pattern Name]\n\nWhat we saw:\n- [FILL: Observation 1]\n- [FILL: Observation 2]\n\nWhy this matters:\nThis impacts how founders approach fundraising.\n\nWhat founders can do:\n[FILL: 1 actionable tip]\n\n#CyberStartups #Founders #Funding'},
-            {week: 3, day: 'Tuesday', daysFromStart: 15, title: '📱 Post #3: Second Pattern', description: 'Share your second insight.', type: 'post', content: '🔍 Screening Room Insight #2\n\n[FILL: Your Pattern Name]\n\nWhat we saw:\n- [FILL: Observation 1]\n- [FILL: Observation 2]\n\nWhy this matters:\n[FILL: Impact]\n\nWhat founders can do:\n[FILL: Tip]\n\n#CyberStartups #Founders'},
-            {week: 4, day: 'Tuesday', daysFromStart: 22, title: '📱 Post #4: Case Study', description: 'Share anonymized founder case study.', type: 'post', content: '📊 What We Learned From Screening [Anonymous Startup]\n\nWhat stood out:\n1. [FILL: Observation 1]\n2. [FILL: Observation 2]\n3. [FILL: Observation 3]\n\nThe biggest win: [FILL]\nThe biggest miss: [FILL]\n\n#Screening #Founders'},
-            {week: 5, day: 'Tuesday', daysFromStart: 29, title: '📱 Post #5: Monthly Benchmarks', description: 'Share benchmarking data.', type: 'post', content: '📈 Cyber Startup Benchmarks\n\nBased on screening 25+ startups:\n\n**Funding**\n- Median seed: $[FILL]\n- Median Series A: $[FILL]\n\n**Metrics**\n- Median CAC: $[FILL]\n- Median growth: [FILL]%\n- Median runway: [FILL] months\n\n**Red Flags**\n- [FILL]% have [problem]\n\n#Benchmarks #CyberSecurity'},
-            {week: 6, day: 'Tuesday', daysFromStart: 36, title: '📱 Post #6: Investor Metrics', description: 'What investors ask about.', type: 'post', content: '🎯 The 3 Metrics Cyber Investors Ask For\n\n1. **CAC Payback < 12 months**\n   Shows repeatable go-to-market\n\n2. **Gross Margin > 65%**\n   Shows unit economics work\n\n3. **YoY Growth > 100%**\n   Shows product-market fit\n\nIf you have these three, Series A gets easier.\n\n#Fundraising #Investors #CyberStartups'},
-            {week: 7, day: 'Tuesday', daysFromStart: 43, title: '📱 Post #7: Common Mistakes', description: '3 biggest mistakes.', type: 'post', content: '🔴 The 3 Mistakes Every Cyber Startup Makes\n\n**Mistake #1: Focus on Features, Not Dollars**\nInvestors see: "Can you generate revenue?"\n\n**Mistake #2: Wrong GTM for Market**\nSelf-serve on enterprise products doesn\'t scale.\n\n**Mistake #3: Underestimating Sales Cycles**\nYou\'re forgetting 6+ month sales cycles.\n\nNot making these? You\'re ahead of 70%.\n\n#FundingAdvice #CyberStartups'},
-            {week: 8, day: 'Tuesday', daysFromStart: 50, title: '📱 Post #8: Founder Traits', description: 'Traits that predict success.', type: 'post', content: '👥 Founder Traits We Look For\n\n1. **Financial Literacy**\n   Do they understand their metrics?\n\n2. **Coachability**\n   Do they learn or argue?\n\n3. **Realistic Optimism**\n   They know it\'s hard AND they\'ll win.\n\n4. **Sales DNA**\n   Can they sell the vision?\n\nHaving all 4? Series A coming.\n\n#Founders #Leadership #CyberSecurity'},
-            {week: 9, day: 'Tuesday', daysFromStart: 57, title: '📱 Post #9: 2024 Trends', description: 'Cyber funding trends.', type: 'post', content: '📊 2024 Cyber Funding Trends\n\n**Seeing MORE:**\n- B2B2C models\n- API-first security\n- AI-assisted detection\n- Compliance-first positioning\n\n**Seeing LESS:**\n- Pure cybersecurity tech\n- Enterprise-only TAM\n- "Like CrowdStrike but cheaper"\n\nDifferentiation matters.\n\n#CyberSecurity #Fundraising'},
-            {week: 10, day: 'Tuesday', daysFromStart: 64, title: '📱 Post #10: Unit Economics', description: 'CAC and payback deep dive.', type: 'post', content: '💰 Unit Economics in Cyber\n\nMargins: 70%+ ✅\nPayback: 18-24 months 😬\n\nThis creates problems:\n- Need to raise MORE\n- SaaS math doesn\'t apply\n- Investors don\'t account\n\nWhat to do:\n1. Know payback (month by month)\n2. Model cash to break-even\n3. Raise for 18+ months\n\n60% underestimate by 3-6 months.\n\n#UnitEconomics #Finance'},
-            {week: 11, day: 'Tuesday', daysFromStart: 71, title: '📱 Post #11: Future Bets', description: 'What you\'re betting on.', type: 'post', content: '🔮 What We\'re Betting On in Cyber\n\nWINNERS will have:\n\n1. **Boring GTM**\n   Repeatable, profitable\n\n2. **CAC Mastery**\n   Understand to the dollar\n\n3. **Compliance First**\n   Then features\n\n4. **Sales + Engineering**\n   No pure-tech teams\n\nIf founding/investing: these are the bets.\n\n#CyberTrends #Startups'},
-            {week: 12, day: 'Tuesday', daysFromStart: 78, title: '📱 Post #12: Retrospective', description: 'Wrap up 12-week journey.', type: 'post', content: '🎯 11 Weeks of Cyber Insights\n\n**Founders:**\n✅ Know unit economics\n✅ Price for value\n✅ Understand investor priorities\n✅ Build selling teams\n\n**Investors:**\n✅ Ask payback period\n✅ Dig into GTM unit econ\n✅ Value operators\n\n**Next: Monthly office hours for founders + investors.\n\nLet\'s keep building.\n\n#CyberSecurity #Startups #Funding'},
-            {week: 12, day: 'Friday', daysFromStart: 82, title: '🎉 Celebrate & Plan Next Phase', description: '12 weeks complete! Plan Month 4-12.', type: 'milestone', content: 'NEXT PHASE:\n\n✅ Month 1-3 complete\n\nMonth 4-12:\n1. Continue posting\n2. Launch monthly office hours\n3. Guest posts on publications\n4. Speaking events (2/quarter)\n5. Multiply impact\n\nYou\'ve built authority. Leverage it.'}
+            // WEEK 1
+            {week: 1, day: 'Monday', daysFromStart: 0, title: '📋 Update LinkedIn Profile', description: 'Update your headline and about section.', type: 'setup', team: 'you', content: 'LINKEDIN HEADLINE:\nCFO Services @ Brooks Keret | Cyber Sector Finance & Startup Screening\n\nABOUT SECTION:\nI screen 20+ cyber startups per month across seed and Series A.'},
+            {week: 1, day: 'Monday', daysFromStart: 0, title: '📢 Marketing: Create Content Calendar', description: 'Set up posting schedule and strategy.', type: 'marketing', team: 'marketing', content: 'CONTENT CALENDAR:\n- Platform: LinkedIn\n- Time: Tuesday 10 AM\n- Frequency: 1 post/week\n- Duration: 12 weeks'},
+            {week: 1, day: 'Tuesday', daysFromStart: 1, title: '📱 Post #1: Introduction', description: 'Your positioning post.', type: 'post', team: 'you', content: 'Excited to share what we\'re seeing in the cyber startup ecosystem.\n\nOver the past 8 months screening startups at Brooks Keret, I\'ve noticed patterns that most founders—and investors—are missing.\n\nWe evaluate ~25 cyber companies per month across seed and Series A.\n\nThis is a space where CFO fundamentals + cyber domain knowledge intersect.\n\nI\'ll be sharing insights from our screening room.\n\nLet\'s go. 🛡️\n\n#Cybersecurity #Startups #Finance #Funding'},
+            {week: 1, day: 'Wednesday', daysFromStart: 2, title: '📢 Marketing: Promote Post #1', description: 'Share post in relevant channels and communities.', type: 'marketing', team: 'marketing', content: null},
+            {week: 1, day: 'Friday', daysFromStart: 4, title: '📊 Analytics: Check Post #1 Performance', description: 'Log metrics and analyze engagement.', type: 'analytics', team: 'you', content: null, isMetrics: true},
+
+            // WEEK 2
+            {week: 2, day: 'Monday', daysFromStart: 7, title: '📊 Prepare Insight #1 Data', description: 'Research and prepare your top pattern.', type: 'research', team: 'you', content: 'PREPARATION:\n1. Top pattern observed?\n2. How many startups affected?\n3. Concrete impact?\n4. What can founders do?'},
+            {week: 2, day: 'Tuesday', daysFromStart: 8, title: '📱 Post #2: First Pattern', description: 'Share your first insight.', type: 'post', team: 'you', content: '🔍 Screening Room Insight #1\n\nLast month, evaluated 25 cyber startups.\n\n[FILL: Your Pattern Name]\n\nWhat we saw:\n- [FILL: Observation 1]\n- [FILL: Observation 2]\n\nWhy this matters: [FILL]\n\nWhat founders can do: [FILL]\n\n#CyberStartups #Founders #Funding'},
+            {week: 2, day: 'Wednesday', daysFromStart: 9, title: '📢 Marketing: Amplify Post #2', description: 'Share across channels.', type: 'marketing', team: 'marketing', content: null},
+            {week: 2, day: 'Friday', daysFromStart: 11, title: '📊 Analytics: Check Post #2 Performance', description: 'Log metrics.', type: 'analytics', team: 'you', content: null, isMetrics: true},
+
+            // WEEK 3
+            {week: 3, day: 'Tuesday', daysFromStart: 15, title: '📱 Post #3: Second Pattern', description: 'Share your second insight.', type: 'post', team: 'you', content: '🔍 Screening Room Insight #2\n\n[FILL: Pattern Name]\n\nWhat we saw:\n- [FILL: Observation 1]\n- [FILL: Observation 2]\n\nWhy this matters: [FILL]\n\nWhat founders can do: [FILL]\n\n#CyberStartups #Founders'},
+            {week: 3, day: 'Wednesday', daysFromStart: 16, title: '📢 Marketing: Promote Post #3', description: 'Share across channels.', type: 'marketing', team: 'marketing', content: null},
+            {week: 3, day: 'Friday', daysFromStart: 18, title: '📊 Analytics: Check Post #3 Performance', description: 'Log metrics.', type: 'analytics', team: 'you', content: null, isMetrics: true},
+
+            // WEEK 4
+            {week: 4, day: 'Tuesday', daysFromStart: 22, title: '📱 Post #4: Case Study', description: 'Share anonymized founder case study.', type: 'post', team: 'you', content: '📊 What We Learned From Screening\n\nWhat stood out:\n1. [FILL]\n2. [FILL]\n3. [FILL]\n\nBiggest win: [FILL]\nBiggest miss: [FILL]\n\n#Screening #Founders'},
+            {week: 4, day: 'Wednesday', daysFromStart: 23, title: '📢 Marketing: Amplify Post #4', description: 'Share across channels.', type: 'marketing', team: 'marketing', content: null},
+            {week: 4, day: 'Friday', daysFromStart: 25, title: '📊 Analytics: Check Post #4 Performance', description: 'Log metrics.', type: 'analytics', team: 'you', content: null, isMetrics: true},
+
+            // WEEK 5
+            {week: 5, day: 'Tuesday', daysFromStart: 29, title: '📱 Post #5: Monthly Benchmarks', description: 'Share benchmarking data.', type: 'post', team: 'you', content: '📈 Cyber Startup Benchmarks\n\n**Funding**\n- Median seed: $[FILL]\n- Median Series A: $[FILL]\n\n**Metrics**\n- Median CAC: $[FILL]\n- Growth: [FILL]%\n- Runway: [FILL] months\n\n#Benchmarks'},
+            {week: 5, day: 'Wednesday', daysFromStart: 30, title: '📢 Marketing: Promote Post #5', description: 'Share across channels.', type: 'marketing', team: 'marketing', content: null},
+            {week: 5, day: 'Friday', daysFromStart: 32, title: '📊 Analytics: Check Post #5 Performance', description: 'Log metrics.', type: 'analytics', team: 'you', content: null, isMetrics: true},
+
+            // WEEK 6-12 (Simplified for length)
+            {week: 6, day: 'Tuesday', daysFromStart: 36, title: '📱 Post #6: Investor Metrics', description: 'What investors ask about.', type: 'post', team: 'you', content: '🎯 3 Metrics Cyber Investors Ask For\n\n1. CAC Payback < 12 months\n2. Gross Margin > 65%\n3. YoY Growth > 100%\n\n#Fundraising #Investors'},
+            {week: 6, day: 'Friday', daysFromStart: 40, title: '📊 Analytics: Check Post #6 Performance', description: 'Log metrics.', type: 'analytics', team: 'you', content: null, isMetrics: true},
+            {week: 7, day: 'Tuesday', daysFromStart: 43, title: '📱 Post #7: Common Mistakes', description: '3 biggest mistakes.', type: 'post', team: 'you', content: '🔴 3 Mistakes Every Cyber Startup Makes\n\n**#1: Features > Dollars**\n**#2: Wrong GTM**\n**#3: Underestimate Sales Cycles**\n\n#FundingAdvice'},
+            {week: 7, day: 'Friday', daysFromStart: 47, title: '📊 Analytics: Check Post #7 Performance', description: 'Log metrics.', type: 'analytics', team: 'you', content: null, isMetrics: true},
+            {week: 8, day: 'Tuesday', daysFromStart: 50, title: '📱 Post #8: Founder Traits', description: 'Success traits.', type: 'post', team: 'you', content: '👥 Founder Traits We Look For\n\n1. Financial Literacy\n2. Coachability\n3. Realistic Optimism\n4. Sales DNA\n\n#Founders #Leadership'},
+            {week: 8, day: 'Friday', daysFromStart: 54, title: '📊 Analytics: Check Post #8 Performance', description: 'Log metrics.', type: 'analytics', team: 'you', content: null, isMetrics: true},
+            {week: 9, day: 'Tuesday', daysFromStart: 57, title: '📱 Post #9: 2024 Trends', description: 'Cyber funding trends.', type: 'post', team: 'you', content: '📊 2024 Cyber Funding Trends\n\nSeeing MORE: B2B2C, API-first, AI, Compliance\nSeeing LESS: Pure tech, Enterprise-only\n\n#CyberSecurity'},
+            {week: 9, day: 'Friday', daysFromStart: 61, title: '📊 Analytics: Check Post #9 Performance', description: 'Log metrics.', type: 'analytics', team: 'you', content: null, isMetrics: true},
+            {week: 10, day: 'Tuesday', daysFromStart: 64, title: '📱 Post #10: Unit Economics', description: 'CAC deep dive.', type: 'post', team: 'you', content: '💰 Unit Economics in Cyber\n\nMargins: 70%+\nPayback: 18-24 months\n\nWhat to do:\n1. Know payback\n2. Model cash\n3. Raise 18+ months\n\n#Finance'},
+            {week: 10, day: 'Friday', daysFromStart: 68, title: '📊 Analytics: Check Post #10 Performance', description: 'Log metrics.', type: 'analytics', team: 'you', content: null, isMetrics: true},
+            {week: 11, day: 'Tuesday', daysFromStart: 71, title: '📱 Post #11: Future Bets', description: 'What you\'re betting on.', type: 'post', team: 'you', content: '🔮 Betting on in Cyber\n\nWINNERS:\n1. Boring GTM\n2. CAC Mastery\n3. Compliance First\n4. Sales + Engineering\n\n#CyberTrends'},
+            {week: 11, day: 'Friday', daysFromStart: 75, title: '📊 Analytics: Check Post #11 Performance', description: 'Log metrics.', type: 'analytics', team: 'you', content: null, isMetrics: true},
+            {week: 12, day: 'Tuesday', daysFromStart: 78, title: '📱 Post #12: Retrospective', description: 'Wrap up 12 weeks.', type: 'post', team: 'you', content: '🎯 11 Weeks of Cyber Insights\n\n✅ Unit economics\n✅ Price for value\n✅ Investor priorities\n✅ Sales teams\n\nNext: Monthly office hours.\n\n#CyberSecurity #Startups'},
+            {week: 12, day: 'Friday', daysFromStart: 82, title: '📊 Analytics: Final Review', description: 'Analyze 12-week performance.', type: 'analytics', team: 'you', content: null, isMetrics: true},
+            {week: 12, day: 'Friday', daysFromStart: 82, title: '🎉 Celebrate & Plan Month 4-12', description: 'Review success and next phase.', type: 'milestone', team: 'you', content: 'NEXT PHASE:\n✅ Month 1-3 complete\n\nMonth 4-12:\n1. Continue posting\n2. Monthly office hours\n3. Guest posts\n4. Speaking events\n\nYou\'ve built authority!'}
         ];
 
         let tasks = [];
@@ -504,7 +568,6 @@
             const timeline = document.getElementById('timeline');
             timeline.innerHTML = '';
 
-            let todayMarkerAdded = false;
             const today = new Date().toISOString().split('T')[0];
             let currentWeek = 0;
             let weekTasks = [];
@@ -516,14 +579,6 @@
                         weekTasks = [];
                     }
                     currentWeek = task.week;
-                }
-
-                if (!todayMarkerAdded && task.actualDate >= today) {
-                    const marker = document.createElement('div');
-                    marker.className = 'today-marker';
-                    marker.innerHTML = '<span class="today-badge">📍 Today & Forward</span>';
-                    timeline.appendChild(marker);
-                    todayMarkerAdded = true;
                 }
 
                 weekTasks.push(task);
@@ -558,10 +613,15 @@
             const taskDate = new Date(task.actualDate + 'T00:00:00');
             const dateStr = taskDate.toLocaleDateString('en-US', {month: 'short', day: 'numeric'});
 
-            let actionsHTML = `<button class="task-btn" onclick="toggleTask('${taskId.replace(/'/g, "\\'")}')">${isCompleted ? 'Undo ↩️' : 'Mark Done ✓'}</button>`;
+            let teamLabel = task.team === 'marketing' ? '👥' : task.team === 'you' ? '👤' : '📊';
+            let statusHtml = `<div class="task-status">${teamLabel} ${task.type}</div>`;
+
+            let actionsHTML = `<button class="task-btn" onclick="toggleTask('${taskId.replace(/'/g, "\\'")}')">${isCompleted ? 'Undo ↩️' : 'Done ✓'}</button>`;
 
             if (task.content) {
-                actionsHTML = `<button class="task-btn" onclick="showModal('${task.title.replace(/'/g, "\\'")}', '${task.description.replace(/'/g, "\\'")}', \`${task.content.replace(/`/g, '\\`')}\`)">📖 View</button>` + actionsHTML;
+                actionsHTML = `<button class="task-btn" onclick="showModal('${task.title.replace(/'/g, "\\'")}', '${task.description.replace(/'/g, "\\'")}', \`${task.content.replace(/`/g, '\\`')}\`, ${task.isMetrics})">📖 View</button>` + actionsHTML;
+            } else if (task.isMetrics) {
+                actionsHTML = `<button class="task-btn" onclick="showMetricsModal('${task.title.replace(/'/g, "\\'")}', '${task.description.replace(/'/g, "\\'")}'")">📊 Log</button>` + actionsHTML;
             }
 
             taskEl.innerHTML = `
@@ -571,7 +631,7 @@
                         <div class="task-title">${task.title}</div>
                         <div class="task-date">${task.day} • ${dateStr}</div>
                     </div>
-                    <div class="task-status">${task.type}</div>
+                    ${statusHtml}
                 </div>
                 <div class="task-content">
                     <div class="task-description">${task.description}</div>
@@ -598,20 +658,31 @@
             render();
         }
 
-        function showModal(title, description, content) {
+        function showModal(title, description, content, isMetrics) {
             const modal = document.getElementById('modal');
             document.getElementById('modalTitle').textContent = title;
             document.getElementById('modalBody').textContent = description;
+            document.getElementById('contentSection').classList.toggle('hidden', isMetrics);
+            document.getElementById('metricsSection').classList.toggle('hidden', !isMetrics);
+            document.getElementById('copyBtn').classList.toggle('hidden', isMetrics);
 
-            const contentSection = document.getElementById('contentSection');
-            if (content && content.length > 0) {
-                contentSection.classList.remove('hidden');
+            if (content && content.length > 0 && !isMetrics) {
                 document.getElementById('contentTextarea').value = content;
-            } else {
-                contentSection.classList.add('hidden');
+            }
+
+            if (isMetrics) {
+                document.getElementById('metricsImpressions').value = '';
+                document.getElementById('metricsLikes').value = '';
+                document.getElementById('metricsComments').value = '';
+                document.getElementById('metricsShares').value = '';
+                document.getElementById('metricsFeedback').classList.add('hidden');
             }
 
             modal.classList.add('show');
+        }
+
+        function showMetricsModal(title, description) {
+            showModal(title, description, '', true);
         }
 
         function closeModal() {
@@ -622,7 +693,43 @@
             const textarea = document.getElementById('contentTextarea');
             textarea.select();
             document.execCommand('copy');
-            alert('✅ Copied to clipboard!');
+            alert('✅ Copied!');
+        }
+
+        function calculateMetrics() {
+            const impressions = parseInt(document.getElementById('metricsImpressions').value) || 0;
+            const likes = parseInt(document.getElementById('metricsLikes').value) || 0;
+            const comments = parseInt(document.getElementById('metricsComments').value) || 0;
+            const shares = parseInt(document.getElementById('metricsShares').value) || 0;
+
+            const feedback = document.getElementById('metricsFeedback');
+            let message = '';
+            let cssClass = '';
+
+            if (impressions === 0) {
+                message = '⏳ No impressions yet. Check again later.';
+                cssClass = 'warning';
+            } else {
+                const engagement = ((likes + comments + shares) / impressions * 100).toFixed(2);
+                
+                if (engagement >= 3) {
+                    message = `🔥 Great engagement! ${engagement}% - Keep this momentum!`;
+                    cssClass = 'good';
+                } else if (engagement >= 1.5) {
+                    message = `✅ Good engagement: ${engagement}% - This is solid performance.`;
+                    cssClass = 'good';
+                } else if (engagement >= 0.5) {
+                    message = `⚠️ Moderate engagement: ${engagement}% - Consider A/B testing different topics.`;
+                    cssClass = 'warning';
+                } else {
+                    message = `📊 Low engagement: ${engagement}% - Try different timing or format.`;
+                    cssClass = 'warning';
+                }
+            }
+
+            feedback.textContent = message;
+            feedback.className = 'metrics-feedback ' + cssClass;
+            feedback.classList.remove('hidden');
         }
 
         function updateProgress() {
@@ -638,10 +745,6 @@
         document.getElementById('modal').addEventListener('click', (e) => {
             if (e.target.id === 'modal') closeModal();
         });
-
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js').catch(() => {});
-        }
 
         loadData();
     </script>
